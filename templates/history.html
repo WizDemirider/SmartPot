@@ -1,50 +1,39 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Watch Data{% endblock %}
+{% block title %}My Smart Pot{% endblock %}
 {% block top %}
 
 {% endblock %}
 
-{% block heading %}Watch Data{% endblock %}
+{% block heading %}My Smart Pot{% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="row">
         <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 card" style="margin-top:0;">
-            <h3 style="margin-top:30px;margin-bottom:10px;font-weight: 350;border-bottom: 2px solid  #00bcd4;"> Watch ID: {{watch.id}} </h3>
-
-            <span>Owner: {{watch_json.owner}}</span>
-            <span>Location: {{watch.full_location}}</span>
-            <span>Home: {{watch.get_home_coordinates.0}}, {{watch.get_home_coordinates.1}}</span><br>
-            {% if watch.trusted_users.all.exists %}<span>Trusted Contacts: </span>{% endif %}
-            <ul>
-                {% for contact in watch.trusted_users.all %}
-                <li>{{contact.username}}</li>
-                {% endfor %}
-            </ul>
+            <h3 style="margin-top:30px;margin-bottom:10px;font-weight: 350;border-bottom: 2px solid  #00bcd4;"> Historical Data </h3>
         </div>
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 card" style="margin-top:0; text-align:center">
             <canvas id="myChart"></canvas>
-            <span style="display: block; font-weight: bold" class="pt-2"> Recent heart rate data</span>
+            <span style="display: block; font-weight: bold" class="pt-2">Moisture Trend</span>
         </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <table class="table"    >
                     <tr style="border-bottom: 2px solid #dbdbdb;">
                         <th>Timestamp</th>
-                        <th>Heartrate</th>
-                        <th>Latitude</th>
-                        <th>Longitude</th>
+                        <th>Humidity</th>
+                        <th>Temperature</th>
+                        <th>Soil Moisture</th>
                     </tr>
                 {% for data in history %}
                     <tr style="border-bottom: 1px solid #dbdbdb;">
                         <td>{{data.timestamp|date:"M d, Y h:i:s A"}}</td>
-                        <td>{{data.heartrate}}</td>
-                        <td>{{data.get_coordinates.0}}</td>
-                        <td>{{data.get_coordinates.1}}</td>
+                        <td>{{data.humidity}}</td>
+                        <td>{{data.temperature}}</td>
+                        <td>{{data.moisture}}</td>
                     </tr>
-
                 {% endfor %}
                 </table>
             </div>
@@ -69,10 +58,10 @@
     data: {
         datasets: [
             {
-                data: {{heartrates}},
-                label: "Heart Rate",
-                borderColor: "red",
-                hoverBackgroundColor: "blue",
+                data: {{moisture_trend}},
+                label: "Moisture",
+                borderColor: "blue",
+                hoverBackgroundColor: "red",
                 fill: false
             }
         ],

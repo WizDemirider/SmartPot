@@ -4,10 +4,11 @@ from .models import *
 
 def index(request):
     if request.user.is_authenticated:
-        return redirect('view-history')
+        return redirect('history')
     else:
         return redirect('login')
 
 @login_required
 def viewHistory(request):
     history = request.user.history.all()
+    return render(request, 'history.html', {'history': history, 'moisture_trend': [h.moisture for h in history[:15]]})
