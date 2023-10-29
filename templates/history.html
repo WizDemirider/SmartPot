@@ -23,14 +23,14 @@
                 <table class="table"    >
                     <tr style="border-bottom: 2px solid #dbdbdb;">
                         <th>Timestamp</th>
-                        <th>Humidity</th>
+                        <!-- <th>Humidity</th> -->
                         <th>Temperature</th>
                         <th>Soil Moisture</th>
                     </tr>
                 {% for data in history %}
                     <tr style="border-bottom: 1px solid #dbdbdb;">
                         <td>{{data.timestamp|date:"M d, Y h:i:s A"}}</td>
-                        <td>{{data.humidity}}</td>
+                        <!-- <td>{{data.humidity}}</td> -->
                         <td>{{data.temperature}}</td>
                         <td>{{data.moisture}}</td>
                     </tr>
