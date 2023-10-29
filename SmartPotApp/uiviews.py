@@ -11,4 +11,9 @@ def index(request):
 @login_required
 def viewHistory(request):
     history = request.user.history.all()
-    return render(request, 'history.html', {'history': history, 'moisture_trend': [h.moisture for h in history[:15]]})
+    return render(request, 'history.html', 
+    {
+        'history': history, 
+        'moisture_trend': [float(h.moisture) for h in history[:15]], 
+        'timestamps': [(h.timestamp).strftime('%I:%M:%S') for h in history[:15:-1]]
+    })
