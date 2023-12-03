@@ -11,21 +11,41 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 card" style="margin-top:0;">
+        <div class="col-xs-8 col-md-5 card" style="margin-top:0;">
             <h3 style="margin-top:30px;margin-bottom:10px;font-weight: 350;border-bottom: 2px solid  #00bcd4;"> Historical Data </h3>
         </div>
-        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 card" style="margin-top:0; text-align:center">
-            <canvas id="myChart"></canvas>
+        <div class="col-1"></div>
+        {% if temperature_trend %}
+        <div class="col-xs-12 col-md-5 card" style="margin-top:0; text-align:center">
+            <canvas id="myTemperatureChart"></canvas>
+            <span style="display: block; font-weight: bold" class="pt-2">Temperature Trend</span>
+        </div>
+        {% endif %}
+        
+        {% if moisture_trend %}
+        <div class="col-xs-12 col-md-5 card" style="margin-top:0; text-align:center">
+            <canvas id="myMoistureChart"></canvas>
             <span style="display: block; font-weight: bold" class="pt-2">Moisture Trend</span>
         </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <table class="table"    >
+        <div class="col-1"></div>
+        {% endif %}
+        
+        {% if light_trend %}
+        <div class="col-xs-12 col-md-5 card" style="margin-top:0; text-align:center">
+            <canvas id="myLightChart"></canvas>
+            <span style="display: block; font-weight: bold" class="pt-2">Light Intensity Trend</span>
+        </div>
+        {% endif %}
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            {% if history %}
+                <table class="table">
                     <tr style="border-bottom: 2px solid #dbdbdb;">
                         <th>Timestamp</th>
                         <!-- <th>Humidity</th> -->
                         <th>Temperature</th>
                         <th>Soil Moisture</th>
+                        <th>Light Intensity</th>
                     </tr>
                 {% for data in history %}
                     <tr style="border-bottom: 1px solid #dbdbdb;">
@@ -33,46 +53,51 @@
                         <!-- <td>{{data.humidity}}</td> -->
                         <td>{{data.temperature}}</td>
                         <td>{{data.moisture}}</td>
+                        <td>{{data.light}}</td>
                     </tr>
                 {% endfor %}
                 </table>
-            </div>
+            {% else %}
+                <h5> No Data Available, Try connecting to a SmartPot </h5>
+            {% endif %}
+        </div>
     </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
 <script type="text/javascript">
-    var ctx = document.getElementById("myChart");
-    var myBarChart = new Chart(ctx, {
-    type: 'line',
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        },
-        responsive: false,
-    },
-    data: {
-        datasets: [
-            {
-                data: {{moisture_trend}},
-                label: "Moisture",
-                borderColor: "blue",
-                hoverBackgroundColor: "red",
-                fill: false
+    
+    // Let django fill in the data as an array
+    var temperature_values = {{temperature_trend}}
+    var moisture_values = {{moisture_trend}}
+    var light_values = {{light_trend}}
+    var timestamps = {{timestamps | safe}}
+
+    renderChart(temperature_values, "Temperature", "red", "myTemperatureChart");
+    renderChart(moisture_values, "Soil Moisture", "blue", "myMoistureChart");
+    renderChart(light_values, "Light Intensity", "yellow", "myLightChart");
+
+    function renderChart(data, label, colour, id) {
+
+        var myBarChart = new Chart(document.getElementById(id), {
+            type: 'line',
+            options: {
+                responsive: true,
+            },
+            data: {
+                datasets: [
+                    {
+                        data: data,
+                        label: label,
+                        borderColor: colour,
+                        hoverBackgroundColor: "black",
+                        fill: false
+                    }
+                ],
+                labels: timestamps,
             }
-        ],
-        labels: {{timestamps | safe}},
+        });
     }
-});
-    var chart = new ApexCharts(
-    document.querySelector("#myChart"),
-    options
-);
-chart.render();
 </script>
 
 {% endblock %}

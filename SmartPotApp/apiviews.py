@@ -17,18 +17,19 @@ class PostData(generics.GenericAPIView):
         recv_data = request.body.decode()
         try:
             # moisture, temperature, humidity = [float(val) for val in recv_data.split('&')]
-            moisture, temperature = [float(val) for val in recv_data.split('&')]
+            temperature, moisture, light = [float(val) for val in recv_data.split('&')]
             new_data.moisture = moisture
             new_data.temperature = temperature
+            new_data.light = light
             # new_data.humidity = humidity
             new_data.save()
         except Exception:
-            return HttpResponse("Data format is wrong, expected moisture, temperature, humidity separated by &.", status=status.HTTP_400_BAD_REQUEST)
+            return HttpResponse("Data format is wrong, expected temperature, moisture and light separated by &", status=status.HTTP_400_BAD_REQUEST)
 
         timestamp = new_data.timestamp
         data_resp = timestamp.strftime('%d/%m/%y')+'&'+timestamp.strftime('%I:%M %p')+'&'+str(user.moisture_preference)
         
-        if 'DEBUG' in os.environ and os.environ['DEBUG']:
+        if os.environ.get('DEBUG'):
             print(data_resp)
 
         return HttpResponse(data_resp)
