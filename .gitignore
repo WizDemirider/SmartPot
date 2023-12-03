@@ -160,5 +160,5 @@ cython_debug/
 #.idea/
 
 # SSH Keys
-ankitgithub
-ankitgithub.pub
+ankitgithubkey
+ankitgithubkey.pub
