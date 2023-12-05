@@ -7,5 +7,5 @@ urlpatterns = [
     path('logout', authviews.logoutUser, name="logout"),
     path('signup', authviews.signupUser, name="signup"),
     path('history', uiviews.viewHistory, name="history"),
-    path('api/post_data/<int:uid>', apiviews.PostData.as_view(), name="post-data")
+    path('api/post_data/<str:username>', apiviews.PostData.as_view(), name="post-data")
 ]

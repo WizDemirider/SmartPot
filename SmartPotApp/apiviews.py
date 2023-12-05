@@ -6,9 +6,9 @@ import os
 class PostData(generics.GenericAPIView):
     # permission_classes = (AllowAny,)
 
-    def post(self, request, uid):
+    def post(self, request, username):
         try:
-            user = AppUser.objects.get(id=uid)
+            user = AppUser.objects.get(username=username)
         except AppUser.DoesNotExist:
             return HttpResponse("User not found. Check the token sent.", status=status.HTTP_400_BAD_REQUEST)
 
