@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", default=secrets.token_urlsafe(n
 DEBUG = os.environ.get("DEBUG")
 
 if not DEBUG:
-    ALLOWED_HOSTS = ["*"]
+    ALLOWED_HOSTS = ["smartpotbackend.pythonanywhere.com"]
 
 # Application definition
 
