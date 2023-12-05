@@ -27,8 +27,10 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", default=secrets.token_urlsafe(n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG")
 
-if not DEBUG:
-    ALLOWED_HOSTS = ["smartpotbackend.pythonanywhere.com"]
+ALLOWED_HOSTS = ["smartpotbackend.pythonanywhere.com"]
+
+if DEBUG:
+    ALLOWED_HOSTS.append("localhost")
 
 # Application definition
 
@@ -58,7 +60,7 @@ ROOT_URLCONF = 'SmartPot.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
