@@ -27,10 +27,8 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", default=secrets.token_urlsafe(n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG")
 
-if DEBUG:
+if not DEBUG:
     ALLOWED_HOSTS = ["*"]
-else:
-    ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -135,3 +133,5 @@ AUTH_USER_MODEL = 'SmartPotApp.AppUser'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+USE_X_FORWARDED_HOST=True
