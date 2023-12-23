@@ -15,8 +15,8 @@ def viewHistory(request):
     data = {
         'history': history, 
         'moisture_trend': [float(h.moisture) for h in history[:15]], 
-        'temperature_trend': [int(h.temperature) for h in history[:15]], 
-        'light_trend': [int(h.light) for h in history[:15]], 
+        'temperature_trend': [float(h.temperature) for h in history[:15]], 
+        'light_trend': [float(h.light) for h in history[:15]], 
         'timestamps': [(h.timestamp).strftime('%I:%M:%S') for h in history[:15]]
     }
     if os.environ.get('DEBUG'):

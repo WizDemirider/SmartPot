@@ -9,6 +9,6 @@ class History(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='history', on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
     moisture = models.DecimalField(default=None, null=True, decimal_places=2, max_digits=6)
-    temperature = models.IntegerField(default=None, null=True)
+    temperature = models.DecimalField(default=None, null=True, decimal_places=2, max_digits=6)
     # humidity = models.DecimalField(default=None, null=True, decimal_places=2, max_digits=6)
-    light = models.IntegerField(default=None, null=True)
+    light = models.DecimalField(default=None, null=True, decimal_places=2, max_digits=6)
